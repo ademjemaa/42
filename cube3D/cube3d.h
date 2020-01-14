@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 01:26:45 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/02 22:45:11 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/12 23:11:38 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,31 @@ typedef struct		s_cparam
 	int		maph;
 	int		mapv;
 	int		**map;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*s;
 }					t_cparam;
 
 typedef struct		s_text
 {
 	void	*image;
 	char	*text;
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 	int		bpp;
 	int		size_line;
 	int		end;
 }					t_text;
+
+typedef struct		s_sprite
+{
+	int		x;
+	int		y;
+	int		len;
+	double	dist;
+}					t_sprite;
 
 typedef	struct		s_cam
 {
@@ -63,6 +76,8 @@ typedef	struct		s_cam
 	double	rdiry;
 	int		stepx;
 	int		stepy;
+	double	wallx;
+	int		texx;
 	double	sdistx;
 	double	sdisty;
 	double	ddistx;
@@ -76,20 +91,21 @@ typedef	struct		s_cam
 	int		bpp;
 	int		size_l;
 	int		endian;
-	int		line;
-	int		dstart;
-	int		dend;
+	double	line;
+	double	dstart;
+	double	dend;
 	int		mapx;
 	int		mapy;
 
 }					t_cam;
 
 void				*init_window(char *mlx_ptr, t_cparam *det);
-int					ft_atoi(const char *str);
+int					ft_atoi(char *str);
 void				ft_putstr(char *str);
 void				draw(t_mlx *par, t_cparam *det, t_cam *p, t_text **txt);
-t_cparam			*init_params(char **argv);
+t_cparam			init_params(char **argv);
 void				parse_map(t_cparam *det, char *line);
+int					check_hit(t_cam *p, t_cparam *det, t_sprite **sp);
 void				map_error(void);
 void				*ft_memcpy(void *dst, void *src, size_t n);
 char				*ft_cat(char *dest, const char *src, int lens1, int lens2);
@@ -98,14 +114,16 @@ char				*ft_cat_one(char *tab, char c);
 void				config_colors(t_cparam *d);
 char				*ft_strjoinfr(char *s1, char *s2, int lens1, int lens2);
 int					move(int ketycode, void *params);
-t_cam				*init_player(t_cparam *det);
+t_cam				init_player(t_cparam *det);
 void				move_lr(int keycode, t_cam *p, double var);
 void				check_map(t_cparam *det, char *line, int cond);
 void				place_player(t_cparam *det);
-int					calcul_params(int i, t_cparam *det, t_cam *p);
-int					check_hit(t_cam *p, t_cparam *det);
+int					calcul_params(int i, t_cparam *det, t_cam *p, t_sprite **sp);
 void				step_cal(t_cam *play);
 void				draw_sky_floor(int x, t_cam *p, t_cparam *det);
-t_text				**get_texture(int type, t_mlx *par);
+t_text				**get_texture(t_cparam *det, t_mlx *p);
+void				texture_cal(t_text *txt, t_cam *p, int side);
+void				grab_textures(t_cparam *d, char *line);
+void				add_sprite(int x, int y, t_cam *p, t_sprite **sp);
 
 #endif

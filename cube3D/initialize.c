@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 05:13:53 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/02 23:01:16 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/12 22:01:53 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	re_malloc(t_cparam *det)
 			tmp[i][j] = det->map[i][j];
 			j++;
 		}
+		free(det->map[i]);
 		i++;
 		tmp[i] = malloc(sizeof(int *) * det->maph);
 	}
-	if (det->mapv != 0)
-		free(det->map);
+	free(det->map);
 	det->map = tmp;
 }
 
@@ -70,13 +70,13 @@ void	parse_map(t_cparam *det, char *line)
 {
 	int j;
 
-	j = 0;
+	j = -1;
 	re_malloc(det);
 	if (det->mapv == 0)
 		check_map(det, line, 1);
-	if (line[j] != '1' || line[ft_strlen(line) - 1] != '1')
+	if (line[0] != '1' || line[ft_strlen(line) - 1] != '1')
 		map_error();
-	while (line[j])
+	while (line[++j])
 	{
 		if (line[j] == '1' || line[j] == '0' || line[j] == '2')
 			det->map[det->mapv][j] = line[j] - '0';
@@ -85,7 +85,7 @@ void	parse_map(t_cparam *det, char *line)
 			det->map[det->mapv][j] = line[j];
 		else
 			map_error();
-		j++;
 	}
+	free(line);
 	det->mapv++;
 }

@@ -6,11 +6,26 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 02:32:54 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/02 22:59:38 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/12 20:46:21 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+#include "get_next_line.h"
+
+void	grab_textures(t_cparam *d, char *line)
+{
+	if (line[0] == 'N' && line[1] == 'O')
+		d->no = ft_strdup(&line[3]);
+	else if (line[0] == 'S' && line[1] == 'O')
+		d->so = ft_strdup(&line[3]);
+	else if (line[0] == 'W' && line[1] == 'E')
+		d->we = ft_strdup(&line[3]);
+	else if (line[0] == 'E' && line[1] == 'A')
+		d->ea = ft_strdup(&line[3]);
+	else if (line[0] == 'S' && line[1] == ' ')
+		d->s = ft_strdup(&line[2]);
+}
 
 void	draw_sky_floor(int x, t_cam *p, t_cparam *det)
 {
@@ -49,8 +64,8 @@ void	place_player(t_cparam *det)
 		{
 			if (det->map[i][j] > 2 && found == 0 && (found = 1))
 			{
-				det->playerx = i + 0.5;
-				det->playery = j + 0.5;
+				det->playery = i + 0.5;
+				det->playerx = j + 0.5;
 				det->playerr = det->map[i][j];
 				det->map[i][j] = 0;
 			}
@@ -60,7 +75,7 @@ void	place_player(t_cparam *det)
 	}
 }
 
-int		calcul_params(int i, t_cparam *det, t_cam *p)
+int		calcul_params(int i, t_cparam *det, t_cam *p, t_sprite **sp)
 {
 	int side;
 
@@ -72,12 +87,12 @@ int		calcul_params(int i, t_cparam *det, t_cam *p)
 	p->ddistx = sqrt(1 + ((p->rdiry * p->rdiry) / (p->rdirx * p->rdirx)));
 	p->ddisty = sqrt(1 + ((p->rdirx * p->rdirx) / (p->rdiry * p->rdiry)));
 	step_cal(p);
-	if (!(side = check_hit(p, det)))
-		p->walldist = ((p->mapx - p->posx + (1 - p->stepx) / 2) / p->rdirx);
+	if (!(side = check_hit(p, det, sp)))
+		p->walldist = fabs((p->mapx - p->posx + (1 - p->stepx) / 2) / p->rdirx);
 	else
-		p->walldist = ((p->mapy - p->posy + (1 - p->stepy) / 2) / p->rdiry);
+		p->walldist = fabs((p->mapy - p->posy + (1 - p->stepy) / 2) / p->rdiry);
 	p->line = (int)(det->render_v / p->walldist);
-	p->dstart = (-(p->line) / 2 + det->render_v / 2) - 1;
+	p->dstart = (-(p->line) / 2 + det->render_v / 2);
 	if (p->dstart < 0)
 		p->dstart = 0;
 	p->dend = p->line / 2 + det->render_v / 2;
@@ -86,7 +101,7 @@ int		calcul_params(int i, t_cparam *det, t_cam *p)
 	return (side);
 }
 
-t_text	**get_texture(int type, t_mlx *par)
+t_text	**get_texture(t_cparam *det, t_mlx *p)
 {
 	t_text	**tab;
 
@@ -95,21 +110,21 @@ t_text	**get_texture(int type, t_mlx *par)
 	tab[1] = (t_text*)malloc(sizeof(t_text));
 	tab[2] = (t_text*)malloc(sizeof(t_text));
 	tab[3] = (t_text*)malloc(sizeof(t_text));
-	tab[0]->image = mlx_xpm_file_to_image(par->mlx_ptr, "south.xpm", &(tab[0]->width),
-	&((tab[0])->height));
-	tab[0]->text = mlx_get_data_addr(tab[0]->image, &tab[0]->bpp, &(tab[0]->size_line), &(tab[0]->end));
-	tab[1]->image = mlx_xpm_file_to_image(par->mlx_ptr, "west.xpm", &(tab[1]->width),
-	&((tab[1])->height));
-	tab[1]->text = mlx_get_data_addr((tab[1]->image), &(tab[1]->bpp), &(tab[1]->size_line), &(tab[1]->end));
-	tab[2]->image = mlx_xpm_file_to_image(par->mlx_ptr, "north.xpm", &(tab[2]->width),
-	&((tab[2])->height));
-	tab[2]->text = mlx_get_data_addr(tab[2]->image, &tab[2]->bpp, &tab[2]->size_line, &tab[2]->end);
-	tab[3]->image = mlx_xpm_file_to_image(par->mlx_ptr, "east.xpm", &(tab[3]->width),
-	&((tab[3])->height));
-	tab[3]->text = mlx_get_data_addr(tab[3]->image, &tab[3]->bpp, &tab[3]->size_line, &tab[3]->end);
-	printf("%d %d %d %d %d %d %d %d\n", tab[0]->width, tab[1]->width, tab[2]->width, tab[3]->width, tab[0]->height, tab[1]->height, tab[2]->height, tab[3]->height);
-
-
-
+	tab[0]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->no, &(tab[0]->w),
+	&(tab[0]->h));
+	tab[0]->text = mlx_get_data_addr(tab[0]->image, &tab[0]->bpp,
+	&(tab[0]->size_line), &(tab[0]->end));
+	tab[1]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->so, &(tab[1]->w),
+	&(tab[1]->h));
+	tab[1]->text = mlx_get_data_addr((tab[1]->image), &(tab[1]->bpp),
+	&(tab[1]->size_line), &(tab[1]->end));
+	tab[2]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->we, &(tab[2]->w),
+	&(tab[2]->h));
+	tab[2]->text = mlx_get_data_addr(tab[2]->image, &tab[2]->bpp,
+	&tab[2]->size_line, &tab[2]->end);
+	tab[3]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->ea, &(tab[3]->w),
+	&(tab[3]->h));
+	tab[3]->text = mlx_get_data_addr(tab[3]->image, &tab[3]->bpp,
+	&tab[3]->size_line, &tab[3]->end);
 	return (tab);
 }

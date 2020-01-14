@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 05:17:47 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/02 22:57:30 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/12 21:59:10 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,11 @@ int			find_config(char *str, int *i)
 	return (val);
 }
 
-void		parse_params(t_cparam *d, char *str)
+void		parse_params(t_cparam *d, char *line)
 {
 	int		i;
-	char	*line;
 
 	i = 0;
-	line = ft_strdup(str);
 	if (line[0] == 'R')
 	{
 		d->render_h = find_config(line, &i);
@@ -82,31 +80,29 @@ void		parse_params(t_cparam *d, char *str)
 		d->ceil += (find_config(line, &i) * 256);
 		d->ceil += find_config(line, &i);
 	}
+	grab_textures(d, line);
 }
 
-t_cparam	*init_params(char **argv)
+t_cparam	init_params(char **argv)
 {
 	int			fd;
-	t_cparam	*details;
+	t_cparam	details;
 	char		*line;
 	int			ret;
 
-	if ((details = (t_cparam*)malloc(sizeof(t_cparam))) == NULL)
-		return (NULL);
-	init_all(details);
+	init_all(&details);
 	fd = open(argv[1], O_RDWR);
 	while ((((ret = get_next_line(fd, &line)) == 1)) && line[0] != '\0' &&
 			line[0] != '0' && line[0] != '1')
-		parse_params(details, line);
-	details->maph = ft_strlen(line);
-	parse_map(details, line);
-	while (get_next_line(fd, &line))
 	{
-		parse_map(details, line);
+		parse_params(&details, line);
 		free(line);
 	}
-	free(line);
-	details->maph--;
-	place_player(details);
+	details.maph = ft_strlen(line);
+	parse_map(&details, line);
+	while (get_next_line(fd, &line))
+		parse_map(&details, line);
+	details.maph--;
+	place_player(&details);
 	return (details);
 }

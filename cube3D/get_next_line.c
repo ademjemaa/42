@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:08:28 by adjemaa           #+#    #+#             */
-/*   Updated: 2019/12/25 20:56:40 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/12 21:58:53 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		setup(char **buff, char **str, char **line, int fd)
 	{
 		if (!(*str = (char*)malloc(sizeof(char) * (1025))))
 			return (-1);
-		(*str)[1024] = '\0';
+		(*str)[0] = '\0';
 	}
 	if (*str)
 	{
