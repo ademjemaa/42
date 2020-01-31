@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 04:58:10 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/12 22:30:41 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:31:24 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	verline(int x, t_cam *p, t_cparam *d, t_text *txt)
 	}
 }
 
-int		get_side(t_cam *p, int side, t_text **txt)
+int		get_side(t_cam *p, int side)
 {
 	if (side == 0)
 	{
@@ -111,24 +111,26 @@ void	draw(t_mlx *par, t_cparam *det, t_cam *p, t_text **txt)
 {
 	int			i;
 	int			side;
-	int			bruh;
+	int			rside;
 	t_sprite	*sp;
 
 	i = -1;
-	p->ddistx = 0;
-	p->ddisty = 0;
-	sp = (t_sprite*)malloc(sizeof(t_sprite));
-	sp[0].dist = -1;
-	p->image = mlx_new_image(par->mlx_ptr, det->render_h, det->render_v);
-	p->i_p = mlx_get_data_addr(p->image, &(p->bpp), &(p->size_l), &(p->endian));
+	init_dda(p, &sp, det, par);
 	while (++i < det->render_h)
 	{
 		side = calcul_params(i, det, p, &sp);
-		bruh = get_side(p, side, txt);
-		texture_cal(txt[bruh], p, bruh);
-		verline(i, p, det, txt[bruh]);
+		rside = get_side(p, side);
+		texture_cal(txt[rside], p, rside);
+		verline(i, p, det, txt[rside]);
 		draw_sky_floor(i, p, det);
 	}
-	mlx_put_image_to_window(par->mlx_ptr, par->mlx_win, p->image, 0, 0);
-	mlx_destroy_image(par->mlx_ptr, p->image);
+	ver_sprite(p, sp, det);
+	free(sp);
+	if (det->cond)
+	{
+		mlx_put_image_to_window(par->mlx_ptr, par->mlx_win, p->image, 0, 0);
+		mlx_destroy_image(par->mlx_ptr, p->image);
+	}
+	else
+		make_bmp_map(p->i_p, det);
 }

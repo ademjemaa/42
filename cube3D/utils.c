@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 02:32:54 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/12 20:46:21 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:32:58 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 
 void	grab_textures(t_cparam *d, char *line)
 {
-	if (line[0] == 'N' && line[1] == 'O')
+	if (line[0] == '\0')
+		return ;
+	else if (line[0] == 'N' && line[1] == 'O' && d->no == NULL)
 		d->no = ft_strdup(&line[3]);
-	else if (line[0] == 'S' && line[1] == 'O')
+	else if (line[0] == 'S' && line[1] == 'O' && d->so == NULL)
 		d->so = ft_strdup(&line[3]);
-	else if (line[0] == 'W' && line[1] == 'E')
+	else if (line[0] == 'W' && line[1] == 'E' && d->we == NULL)
 		d->we = ft_strdup(&line[3]);
-	else if (line[0] == 'E' && line[1] == 'A')
+	else if (line[0] == 'E' && line[1] == 'A' && d->ea == NULL)
 		d->ea = ft_strdup(&line[3]);
-	else if (line[0] == 'S' && line[1] == ' ')
+	else if (line[0] == 'S' && line[1] == ' ' && d->s == NULL)
 		d->s = ft_strdup(&line[2]);
+	else
+	{
+		ft_putstr("Error\nBad line configuration\n");
+		exit(0);
+	}
 }
 
 void	draw_sky_floor(int x, t_cam *p, t_cparam *det)
@@ -70,9 +77,10 @@ void	place_player(t_cparam *det)
 				det->map[i][j] = 0;
 			}
 			if (det->map[i][j] > 2 && found == 1)
-				map_error();
+				map_error((void*)det);
 		}
 	}
+	position_error(det);
 }
 
 int		calcul_params(int i, t_cparam *det, t_cam *p, t_sprite **sp)
@@ -91,6 +99,7 @@ int		calcul_params(int i, t_cparam *det, t_cam *p, t_sprite **sp)
 		p->walldist = fabs((p->mapx - p->posx + (1 - p->stepx) / 2) / p->rdirx);
 	else
 		p->walldist = fabs((p->mapy - p->posy + (1 - p->stepy) / 2) / p->rdiry);
+	p->zbuffer[i] = p->walldist;
 	p->line = (int)(det->render_v / p->walldist);
 	p->dstart = (-(p->line) / 2 + det->render_v / 2);
 	if (p->dstart < 0)
@@ -110,21 +119,16 @@ t_text	**get_texture(t_cparam *det, t_mlx *p)
 	tab[1] = (t_text*)malloc(sizeof(t_text));
 	tab[2] = (t_text*)malloc(sizeof(t_text));
 	tab[3] = (t_text*)malloc(sizeof(t_text));
-	tab[0]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->no, &(tab[0]->w),
+	tab[0]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->we, &(tab[0]->w),
 	&(tab[0]->h));
-	tab[0]->text = mlx_get_data_addr(tab[0]->image, &tab[0]->bpp,
-	&(tab[0]->size_line), &(tab[0]->end));
-	tab[1]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->so, &(tab[1]->w),
+	tab[1]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->ea, &(tab[1]->w),
 	&(tab[1]->h));
-	tab[1]->text = mlx_get_data_addr((tab[1]->image), &(tab[1]->bpp),
-	&(tab[1]->size_line), &(tab[1]->end));
-	tab[2]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->we, &(tab[2]->w),
+	tab[2]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->no, &(tab[2]->w),
 	&(tab[2]->h));
-	tab[2]->text = mlx_get_data_addr(tab[2]->image, &tab[2]->bpp,
-	&tab[2]->size_line, &tab[2]->end);
-	tab[3]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->ea, &(tab[3]->w),
+	tab[3]->image = mlx_xpm_file_to_image(p->mlx_ptr, det->so, &(tab[3]->w),
 	&(tab[3]->h));
-	tab[3]->text = mlx_get_data_addr(tab[3]->image, &tab[3]->bpp,
-	&tab[3]->size_line, &tab[3]->end);
+	det->image = mlx_xpm_file_to_image(p->mlx_ptr, det->s,
+	&(det->w), &(det->h));
+	text_error(tab, det);
 	return (tab);
 }

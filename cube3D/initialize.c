@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 05:13:53 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/12 22:01:53 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:16:39 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_cat_one(char *tab, char c)
 	return (tmp);
 }
 
-void	re_malloc(t_cparam *det)
+void	re_malloc(t_cparam *det, char *line)
 {
 	int i;
 	int j;
@@ -47,7 +47,7 @@ void	re_malloc(t_cparam *det)
 		}
 		free(det->map[i]);
 		i++;
-		tmp[i] = malloc(sizeof(int *) * det->maph);
+		tmp[i] = malloc(sizeof(int *) * (det->maph));
 	}
 	free(det->map);
 	det->map = tmp;
@@ -69,22 +69,27 @@ void	*init_window(char *mlx_ptr, t_cparam *d)
 void	parse_map(t_cparam *det, char *line)
 {
 	int j;
+	int f;
 
 	j = -1;
-	re_malloc(det);
+	f = 0;
+	re_malloc(det, line);
 	if (det->mapv == 0)
 		check_map(det, line, 1);
 	if (line[0] != '1' || line[ft_strlen(line) - 1] != '1')
-		map_error();
+		map_error((void*)det);
 	while (line[++j])
 	{
 		if (line[j] == '1' || line[j] == '0' || line[j] == '2')
 			det->map[det->mapv][j] = line[j] - '0';
-		else if (line[j] == 'N' || line[j] == 'S' || line[j] == 'W' ||
-				line[j] == 'E')
+		else if ((line[j] == 'N' || line[j] == 'S' || line[j] == 'W' ||
+				line[j] == 'E') && f == 0)
+		{
 			det->map[det->mapv][j] = line[j];
+			f = 1;
+		}
 		else
-			map_error();
+			map_error((void*)det);
 	}
 	free(line);
 	det->mapv++;

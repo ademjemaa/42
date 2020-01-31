@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 01:28:08 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/12 23:11:37 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:27:53 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			check_hit(t_cam *p, t_cparam *det, t_sprite **sp)
 			p->mapy += p->stepy;
 			side = 1;
 		}
-		if (det->map[p->mapx][p->mapy] > 0)
+		if (det->map[p->mapx][p->mapy] == 1)
 			hit = 1;
 		if (det->map[p->mapx][p->mapy] == 2)
 			add_sprite(p->mapx, p->mapy, p, sp);

@@ -6,15 +6,19 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 00:33:34 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/12 22:08:36 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:19:53 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	map_error(void)
+void	map_error(void *parms)
 {
+	t_cparam	*det;
+
 	ft_putstr("Error\nBad map configuration\n");
+	det = parms;
+	free(det->map);
 	exit(0);
 }
 
@@ -50,9 +54,12 @@ void	start_cube(t_mlx *par, t_cparam *det)
 	txt = get_texture(det, par);
 	tab[3] = txt;
 	draw(par, det, &p, txt);
-	mlx_hook(par->mlx_win, 17, 0, souris, (void*)tab);
-	mlx_hook(par->mlx_win, 2, 0, move, (void *)tab);
-	mlx_loop(par->mlx_ptr);
+	if (det->cond)
+	{
+		mlx_hook(par->mlx_win, 17, 0, souris, (void*)tab);
+		mlx_hook(par->mlx_win, 2, 0, move, (void *)tab);
+		mlx_loop(par->mlx_ptr);
+	}
 }
 
 int		main(int argc, char **argv)
@@ -60,15 +67,15 @@ int		main(int argc, char **argv)
 	t_cparam	details;
 	t_mlx		par;
 
-	(void)argc;
-	details = init_params(argv);
+	details = init_params(argv, argc);
 	if ((par.mlx_ptr = mlx_init()) == NULL)
 	{
 		ft_putstr("Error\n could not initiate mlx\n");
 		return (0);
 	}
-	if ((par.mlx_win = init_window(par.mlx_ptr, &details)) == NULL)
-		return (0);
+	if (details.cond)
+		if ((par.mlx_win = init_window(par.mlx_ptr, &details)) == NULL)
+			return (0);
 	start_cube(&par, &details);
 	return (0);
 }
