@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 15:57:04 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/31 14:46:55 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 15:41:06 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int		move(int keycode, void *params)
 		saker(params);
 	if (keycode == 0 || keycode == 2)
 		move_ad(keycode, p, det);
+	teleportation(p, det, keycode);
 	draw(par, det, p, txt);
 	return (1);
 }
