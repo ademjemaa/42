@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 18:02:19 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/31 14:37:47 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 15:46:06 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ int		check_tp(t_cparam *det, t_cam *p, int i, int j)
 	int c;
 
 	c = rand() % 1000;
-	printf("%d %d\n", i, j);
-	if (det->map[i][j] == 0)
+	if (det->map[i][j] == 2)
 	{
-		if (c > 990)
+		if (c > 90)
 		{
-			printf("-------\n");
 			p->dirx = -1;
 			p->diry = 0;
 			p->posy = j + 0.5;
