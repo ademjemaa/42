@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 02:32:54 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/31 14:32:58 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/02/03 17:39:51 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	place_player(t_cparam *det)
 	i = -1;
 	found = 0;
 	check_map(det, "", 0);
-	while (++i < det->mapv - 1)
+	while (++i < det->mapv)
 	{
 		j = -1;
-		while (++j < det->maph - 1)
+		while (++j < det->maph)
 		{
 			if (det->map[i][j] > 2 && found == 0 && (found = 1))
 			{

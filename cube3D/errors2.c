@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 18:02:19 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/31 15:46:06 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/02/03 17:41:48 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	teleportation(t_cam *p, t_cparam *det, int keycode)
 	int	j;
 
 	i = 0;
-	if (keycode == 13)
+	printf("%d\n", keycode);
+	if (keycode == 12)
 		if (det->map[(int)(p->posx)][(int)(p->posy + p->diry * 0.2)] == 2)
 		{
 			while (i < det->mapv)
