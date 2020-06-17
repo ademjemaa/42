@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftps
+spec:
+  selector:
+    matchLabels:
+      app: ftps
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      containers:
+      - name: ftps
+        env:
+        - name: FTPS_USER
+          value: adem123
+        - name: FTPS_PASSWORD
+          value: adem123
+        imagePullPolicy: IfNotPresent
+        image: ftps
+        ports:
+        - containerPort: 21
+          name: ftp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ftps-service
+spec:
+  selector:
+    app: ftps
+  ports:
+    - port: 21
+      protocol: TCP
+      name: ftps
+      nodePort: 21
+    - port: 30200
+      protocol: TCP
+      name: ftps-data
+      nodePort: 30200
+  type: NodePort

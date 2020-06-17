@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        env:
+        - name: SSH_USER
+          value: adem123
+        - name: SSH_PASSWORD
+          value: adem123
+        imagePullPolicy: IfNotPresent
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 2222
+          name: ssh
+        - containerPort: 443
+          name: https
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 2222
+      protocol: TCP
+      name: ssh
+      nodePort: 2222
+    - name: https
+      protocol: TCP
+      port: 443
+    - port: 80
+      protocol: TCP
+      name: http
+      targetPort: 80
+  type: NodePort
