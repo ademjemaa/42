@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 01:26:45 by adjemaa           #+#    #+#             */
-/*   Updated: 2020/01/31 14:08:53 by adjemaa          ###   ########.fr       */
+/*   Updated: 2020/01/31 15:41:16 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,5 @@ void				map_parser(int fd, t_cparam *details, char *line);
 int					find_conf(char *str, int *i, int type);
 void				parse_settings(char *line, t_cparam *d, int type);
 void				check_digits(char *line, int type);
-void				teleportation(t_cam *p, t_cparam *det, int keycode);
 
 #endif

@@ -1,0 +1,11 @@
+R 120 80
+SO ./pictures/lava.xpm
+WE ./pictures/diamond.xpm
+S ./pictures/portal.xpm
+EA ./pictures/stone.xpm
+NO ./pictures/wood.xpm
+F 0,100,30
+C 5,0,17
+1111111111111111
+10000000000000E1
+1111111111111111
