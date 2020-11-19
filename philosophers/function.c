@@ -1,5 +1,15 @@
 #include "header.h"
 
+unsigned long   the_time(void)
+{
+    struct timeval eat;
+
+    gettimeofday(&eat, NULL);
+    if (time_now == 0)
+        time_now = (eat.tv_sec * 1000) + (eat.tv_usec / 1000);
+    return ((eat.tv_sec * 1000) + (eat.tv_usec / 1000));
+}
+
 void    pick_up_forks(int cur)
 {
     int second = cur - 1;
@@ -37,6 +47,7 @@ void    *function(void  *args)
     ft_locked_print("is sleeping\n", cur);
     usleep((stru.time_sleep) * 1000);
     ft_locked_print("is thinking\n", cur);
-    function(args);
+    if (stru.state == 0)
+        function(args);
     return(0);
 }

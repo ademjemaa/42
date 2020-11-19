@@ -18,6 +18,8 @@ void				ft_putnbr(unsigned  long n)
 
 void	ft_locked_print(char *str, int cur)
 {
+	if (stru.state == 1)
+		return;
 	pthread_mutex_lock(&stru.print);
 	ft_putnbr(the_time() - time_now);
 	ft_putstr(" ");

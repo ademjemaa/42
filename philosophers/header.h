@@ -26,6 +26,7 @@ typedef struct s_condi
     int     time_eat;
     int     time_sleep;
     int     total_must_eat;
+    int     state;
     pthread_mutex_t print;
     pthread_mutex_t two_forks;
     t_phil  *philos;

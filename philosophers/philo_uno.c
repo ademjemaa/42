@@ -7,10 +7,9 @@ int     check_stats(void)
     {
         if ((unsigned long)(the_time() - stru.philos[i].last_meal) >= (unsigned long)stru.time_die)
         {
-            
-                ft_locked_print("has died\n", i);
-                return(0);
-
+            ft_locked_print("has died\n", i);
+            stru.state = 1;
+            return(0);
         }
         if (stru.philos[i].total_meals >= stru.total_must_eat)
             index++;
@@ -33,6 +32,7 @@ int    init_vars(char **argv, int argc)
     stru.time_die = ft_atoi(argv[2]);
     stru.time_eat = ft_atoi(argv[3]);
     stru.time_sleep = ft_atoi(argv[4]);
+    stru.state = 0;
     stru.total_must_eat = -1;
     if (argc == 6)
         stru.total_must_eat = ft_atoi(argv[5]);
@@ -59,7 +59,6 @@ int main(int argc, char **argv)
     for (int i = 0; i < stru.philo; i++)
         pthread_create(&stru.philos[i].thread_id, NULL, 
                        function, (void*)&stru.philos[i].id);
-    while (check_stats())
-	{
-	}
+    while (check_stats());
+//    free(stru.philos);
 }

@@ -1,4 +1,4 @@
-SRCS			= eat.c function.c philo_uno.c utils.c
+SRCS			= function.c philo_uno.c utils.c
 OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
