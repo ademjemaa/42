@@ -1,17 +1,19 @@
 #include "header.h"
 
-void	ft_putnbr(unsigned long n)
+void				ft_putnbr(unsigned  long n)
 {
-	unsigned long i;
+	char	c;
 
-	i = n;
-	if (i / 10 >= 1)
+	if (n < 10)
 	{
-		ft_putnbr(i / 10);
-		ft_putstr(i % 10 + "0");
+		c = n + '0';
+		write(1, &c, 1);
 	}
 	else
-		ft_putstr(i % 10 + "0");
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
 }
 
 void	ft_locked_print(char *str, int cur)
@@ -22,7 +24,6 @@ void	ft_locked_print(char *str, int cur)
 	ft_putnbr(cur + 1);
 	ft_putstr(" ");
 	ft_putstr(str);
-	ft_putstr("\n");
 	pthread_mutex_unlock(&stru.print);
 }
 

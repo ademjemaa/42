@@ -11,6 +11,7 @@ unsigned long   time_now;
 
 typedef struct s_phil
 {
+    int             id;
     unsigned long   last_meal;
     int             total_meals;
     pthread_t       thread_id;
@@ -24,7 +25,7 @@ typedef struct s_condi
     int     time_die;
     int     time_eat;
     int     time_sleep;
-    int     time_must_eat;
+    int     total_must_eat;
     pthread_mutex_t print;
     pthread_mutex_t two_forks;
     t_phil  *philos;

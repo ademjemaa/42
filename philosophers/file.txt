@@ -1,0 +1,15 @@
+1 1 is eating
+1 3 is eating
+602 5 is eating
+602 2 is eating
+1202 4 is eating
+1803 3 is eating
+1803 1 is eating
+2404 5 is eating
+2404 2 is eating
+3004 4 is eating
+total meals of 0 is 2
+total meals of 1 is 2
+total meals of 2 is 2
+total meals of 3 is 2
+total meals of 4 is 2
