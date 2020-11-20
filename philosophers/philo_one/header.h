@@ -40,5 +40,6 @@ unsigned long   the_time(void);
 void	ft_locked_print(char *str, int cur);
 void	ft_putnbr(unsigned long n);
 void    *function(void  *args);
+int     check_stats(void);
 
 #endif

@@ -36,16 +36,18 @@ void    *function(void  *args)
 {
     int cur = *(int*)args;
 
+    if (!check_stats())
+        return NULL;
     pick_up_forks(cur);
     ft_locked_print("is eating\n", cur);
-    usleep(stru.time_eat * 1000);
     stru.philos[cur].last_meal = the_time();
+    usleep(stru.time_eat * 1000);
     drop_forks(cur);
     stru.philos[cur].total_meals++;
     if (stru.philos[cur].total_meals >= stru.total_must_eat && stru.total_must_eat > 0)
         return (NULL);
     ft_locked_print("is sleeping\n", cur);
-    usleep((stru.time_sleep) * 1000);
+    usleep((stru.time_sleep - stru.time_eat) * 1000);
     ft_locked_print("is thinking\n", cur);
     if (stru.state == 0)
         function(args);

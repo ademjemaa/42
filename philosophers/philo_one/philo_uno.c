@@ -5,17 +5,20 @@ int     check_stats(void)
     int index = 0;
     for (int i = 0; i < stru.philo; i++)
     {
-        if ((unsigned long)(the_time() - stru.philos[i].last_meal) >= (unsigned long)stru.time_die)
+        if (stru.philos[i].total_meals == stru.total_must_eat)
+            index++;
+        else if ((unsigned long)(the_time() - stru.philos[i].last_meal) >= (unsigned long)stru.time_die)
         {
             ft_locked_print("has died\n", i);
             stru.state = 1;
             return(0);
         }
-        if (stru.philos[i].total_meals >= stru.total_must_eat)
-            index++;
     }
     if (index == stru.philo && stru.total_must_eat > 0)
+    {
+        stru.state = 1;
         return(0);
+    }
     return (1);
 }
 
@@ -35,7 +38,11 @@ int    init_vars(char **argv, int argc)
     stru.state = 0;
     stru.total_must_eat = -1;
     if (argc == 6)
+    {
         stru.total_must_eat = ft_atoi(argv[5]);
+        if (stru.total_must_eat < 1)
+            return (0);
+    }
     if ((stru.philos = malloc(sizeof(t_phil) * stru.philo)) == NULL)
 		return (0);
     current = the_time();
@@ -55,10 +62,15 @@ int main(int argc, char **argv)
 {
     time_now = 0;
     if (init_vars(argv, argc) == 0)
+    {
         ft_putstr("config error\n");
+        if (stru.philos != NULL)
+            free(stru.philos);
+        return (0);
+    }
     for (int i = 0; i < stru.philo; i++)
         pthread_create(&stru.philos[i].thread_id, NULL, 
                        function, (void*)&stru.philos[i].id);
     while (check_stats());
-//    free(stru.philos);
+    free(stru.philos);
 }
