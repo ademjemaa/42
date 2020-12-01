@@ -46,7 +46,6 @@ int    init_vars(char **argv, int argc)
     if ((stru.philos = malloc(sizeof(t_phil) * stru.philo)) == NULL)
 		return (0);
     current = the_time();
-    pthread_mutex_init(&stru.two_forks, NULL);
     pthread_mutex_init(&stru.print, NULL);
     for (int i = 0; i < stru.philo; i++)
     {
@@ -69,8 +68,14 @@ int main(int argc, char **argv)
         return (0);
     }
     for (int i = 0; i < stru.philo; i++)
+    {
         pthread_create(&stru.philos[i].thread_id, NULL, 
                        function, (void*)&stru.philos[i].id);
+        usleep(5);
+    }
     while (check_stats());
+    for (int i = 0; i < stru.philo; i++)
+        pthread_mutex_destroy(&stru.philos[i].fork);
+    pthread_mutex_destroy(&stru.print);
     free(stru.philos);
 }

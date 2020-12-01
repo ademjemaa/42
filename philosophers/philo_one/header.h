@@ -15,8 +15,7 @@ typedef struct s_phil
     unsigned long   last_meal;
     int             total_meals;
     pthread_t       thread_id;
-    pthread_mutex_t fork;     
-
+    pthread_mutex_t fork;
 }               t_phil;
 
 typedef struct s_condi
@@ -28,7 +27,6 @@ typedef struct s_condi
     int     total_must_eat;
     int     state;
     pthread_mutex_t print;
-    pthread_mutex_t two_forks;
     t_phil  *philos;
 }               t_condi;
 
