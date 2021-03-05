@@ -31,7 +31,7 @@ void    *function(void  *args)
     int cur = *(int*)args;
 
     if (!check_stats())
-        return NULL;
+        return NULL;  
     pick_up_forks(cur);
     stru.philos[cur].last_meal = the_time();
     ft_locked_print("is eating\n", cur);

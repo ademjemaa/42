@@ -10,6 +10,7 @@ int     check_stats(void)
         else if ((unsigned long)(the_time() - stru.philos[i].last_meal) >= (unsigned long)stru.time_die)
         {
             ft_locked_print("has died\n", i);
+            printf("last meal == %ld\n", the_time() - stru.philos[i].last_meal);
             stru.state = 1;
             return(0);
         }
@@ -72,8 +73,19 @@ int main(int argc, char **argv)
         return (0);
     }
     for (int i = 0; i < stru.philo; i++)
-        pthread_create(&stru.philos[i].thread_id, NULL, 
-                       function, (void*)&stru.philos[i].id);
+    {
+        stru.philos[i].pid = fork();
+        if (stru.philos[i].pid == 0)
+        {
+			pthread_create(&stru.philos[i].thread_id, NULL, function, (void*)&i);
+            while (1)
+            {
+                if (!check_stats())
+                    exit(1);
+            }
+            
+        }
+    }
     while (check_stats());
     sem_unlink("forks");
     sem_unlink("two forks");

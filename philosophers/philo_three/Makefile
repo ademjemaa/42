@@ -6,7 +6,7 @@ RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror -fsanitize=address -I.
 LIBS			= -lpthread
 
-NAME			= philo_two
+NAME			= philo_three
 
 all:			$(NAME)
 
