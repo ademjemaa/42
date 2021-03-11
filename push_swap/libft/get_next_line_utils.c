@@ -6,21 +6,11 @@
 /*   By: abarbour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 16:33:53 by abarbour          #+#    #+#             */
-/*   Updated: 2021/01/28 11:36:07 by adjemaa          ###   ########.fr       */
+/*   Updated: 2021/03/11 14:35:42 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -88,18 +78,4 @@ char	*ft_strdup(const char *s1)
 	}
 	*(dest + i) = '\0';
 	return (dest);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*str;
-
-	str = s;
-	i = 0;
-	while (i < n)
-	{
-		str[i] = '\0';
-		i++;
-	}
 }

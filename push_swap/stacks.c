@@ -1,9 +1,12 @@
 #include "push_swap.h"
 
-void    init_stack(t_stack **stack)
+t_stack    *init_stack(void)
 {
-    *stack = malloc(sizeof(t_stack));
-    (*stack)->len = 0;
+	t_stack	*stack;
+    stack = malloc(sizeof(t_stack));
+	stack->stack = NULL;
+    (stack)->len = 0;
+	return (stack);
 }
 
 t_node  *lstnew(char *content)
@@ -24,23 +27,24 @@ t_node  *lstnew(char *content)
                 return (NULL);
         elem->value = val;
         elem->next = NULL;
+		elem->prev = NULL;
         return (elem);
 }
 
-int    lstadd_front(t_node **alst, t_node *new, t_stack *stack_a)
+int    lstadd_front(t_node *new, t_stack *stack_a)
 {
         if (new == NULL)
             return (0);
         stack_a->len++;
-        if (*alst != 0)
+        if (stack_a->stack != 0)
         {
-                new->next = *alst;
+                new->next = stack_a->stack;
                 new->prev = NULL;
-                (*alst)->prev = new;
-                *alst = new;
+                stack_a->stack->prev = new;
+                stack_a->stack = new;
         }
         else
-                *alst = new;
+                stack_a->stack = new;
         return (1);
 }
 
@@ -70,9 +74,9 @@ t_stack  *check_values(int argc, char **argv)
     t_stack *stack_a;
 
     i = 1;
-    init_stack(&stack_a);
+    stack_a = init_stack();
     while (argc > i)
-        if (!lstadd_front(&stack_a->stack, lstnew(argv[i++]), stack_a))
+        if (!lstadd_front(lstnew(argv[i++]), stack_a))
             return (free_list(stack_a));
     if (check_dupli(stack_a))
         return (free_list(stack_a));

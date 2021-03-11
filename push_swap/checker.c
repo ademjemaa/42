@@ -31,22 +31,30 @@ void    show_stacks(t_stack *stack_a, t_stack *stack_b)
 
     i = 0;
     tmp = stack_a->stack;
-    printf("stack a : ");
-    while (i < stack_a->len)
+printf("stack a : ");
+     while (i < stack_a->len)
     {
-        printf("%d ", tmp->value);
+        printf("val %d \n", tmp->value);
+		printf("add == %p\n", tmp);
+		printf("add next == %p\n", tmp->next);
+		printf("add prev == %p\n", tmp->prev);
         i++;
         tmp = tmp->next;
     }
-    i = 0;
+       i = 0;
     tmp = stack_b->stack;
     printf("\nstack b : ");
-    while (i < stack_b->len)
+ while (i < stack_b->len)
     {
-        printf("%d ", tmp->value);
+        printf("val %d \n", tmp->value);
+		printf("add == %p\n", tmp);
+		printf("add next == %p\n", tmp->next);
+		printf("add prev == %p\n", tmp->prev);
         i++;
         tmp = tmp->next;
-    }}
+    }
+
+}
 
 int main(int argc, char **argv)
 {
@@ -56,7 +64,7 @@ int main(int argc, char **argv)
     char    *line;
 
     ret = 1;
-    init_stack(&stack_b);
+    stack_b = init_stack();
     if (argc == 1)
         return (0);
     stack_a = check_values(argc, argv);
@@ -66,8 +74,7 @@ int main(int argc, char **argv)
     while (!check_sorting(stack_a, stack_b) && ret > 0)
     {
         ret = get_next_line(0, &line);
-        exec_instructions(stack_b, stack_a, line);
-        printf("omok\n");
+        exec_instructions(stack_a, stack_b, line);
         show_stacks(stack_a, stack_b);
     }
     free_list(stack_a);

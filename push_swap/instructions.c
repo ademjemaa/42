@@ -1,4 +1,5 @@
 #include "push_swap.h"
+#include <string.h>
 
 t_node	*lstlast(t_node *tmp)
 {
@@ -16,14 +17,26 @@ void    exec_sp(t_stack *stack_a, t_stack *stack_b, int con)
     t_node *tmp;
 
     if (con == 1)
-        exec_sp(stack_b, stack_a, 0);
+		exec_sp(stack_b, stack_a, 0);
     if (stack_a->len < 2)
         return ;
     tmp = lstlast(stack_a->stack)->prev;
-    lstlast(stack_a->stack)->prev = tmp->prev;
-    tmp->prev->next = lstlast(stack_a->stack);
-    tmp->prev = tmp->prev->next;
-    tmp->prev->next = tmp;
+	if (stack_a->len > 2)
+	{
+    	lstlast(stack_a->stack)->prev = tmp->prev;
+    	tmp->prev->next = lstlast(stack_a->stack);
+    	tmp->prev = tmp->prev->next;
+    	tmp->prev->next = tmp;
+		tmp->next = NULL;
+	}
+	else
+	{
+		tmp->prev = tmp->next;
+		lstlast(stack_a->stack)->next = tmp;
+		tmp->prev->prev = NULL;
+		tmp->next = NULL;
+		stack_a->stack = tmp->prev;
+	}
 }
 
 void    exec_pp(t_stack *stack_a, t_stack *stack_b)
@@ -52,27 +65,30 @@ void    exec_pp(t_stack *stack_a, t_stack *stack_b)
 
 void    execute(t_stack *stack_a, t_stack *stack_b, char *line)
 {
-    if (ft_strncmp(line, "SA", 2))
+    if (strncmp(line, "SA", 3) == 0)
+	{
+		printf("sa\n");
         exec_sp(stack_a, stack_b, 0);
-    if (ft_strncmp(line, "SB", 2))
-        exec_sp(stack_b, stack_b, 0);
-    if (ft_strncmp(line, "SS", 2))
+	}
+    if (ft_strncmp(line, "SB", 3) == 0)
+        exec_sp(stack_b, stack_a, 0);
+    if (ft_strncmp(line, "SS", 3) == 0)
         exec_sp(stack_a, stack_b, 1);
-    if (ft_strncmp(line, "PA", 2))
+    if (ft_strncmp(line, "PA", 3) == 0)
         exec_pp(stack_b, stack_a);
-    if (ft_strncmp(line, "PB", 2))
+    if (ft_strncmp(line, "PB", 3) == 0)
         exec_pp(stack_a, stack_b);
-    if (ft_strncmp(line, "RA", 2))
+    if (ft_strncmp(line, "RA", 3) == 0)
         exec_r(stack_a, stack_b, 0);
-    if (ft_strncmp(line, "RB", 2))
+    if (ft_strncmp(line, "RB", 3) == 0)
         exec_r(stack_b, stack_a, 0);
-    if (ft_strncmp(line, "RR", 2))
+    if (ft_strncmp(line, "RR", 3) == 0)
         exec_r(stack_a, stack_b, 0);
-    if (ft_strncmp(line, "RRA", 3))
+    if (ft_strncmp(line, "RRA", 4) == 0)
         exec_rrr(stack_a, stack_b);
-    if (ft_strncmp(line, "RRB", 3))
+    if (ft_strncmp(line, "RRB", 4) == 0)
         exec_rrr(stack_b, stack_a);
-    if (ft_strncmp(line, "RRR", 3))
+    if (ft_strncmp(line, "RRR", 4) == 0)
         exec_rrr(stack_a, stack_b);
 }
 

@@ -6,7 +6,7 @@
 #    By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/06 21:13:47 by adjemaa           #+#    #+#              #
-#    Updated: 2019/11/11 15:54:08 by adjemaa          ###   ########.fr        #
+#    Updated: 2021/03/11 14:34:39 by adjemaa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,7 @@ SRCS = ft_memset.c\
        ft_strnstr.c\
        ft_atoi.c\
        ft_calloc.c\
-       ft_strdup.c\
        ft_substr.c\
-       ft_strjoin.c\
        ft_strtrim.c\
        ft_split.c\
        ft_itoa.c\
