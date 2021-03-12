@@ -59,7 +59,8 @@ void    exec_pp(t_stack *stack_a, t_stack *stack_b)
         }
         stack_b->len++;
         stack_a->len--;
-        tmp->next = NULL;
+        if (tmp != NULL)
+            tmp->next = NULL;
     }
 }
 

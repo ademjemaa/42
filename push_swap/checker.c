@@ -31,7 +31,7 @@ void    show_stacks(t_stack *stack_a, t_stack *stack_b)
 
     i = 0;
     tmp = stack_a->stack;
-printf("stack a : ");
+    printf("stack a : \n");
      while (i < stack_a->len)
     {
         printf("val %d \n", tmp->value);
@@ -43,8 +43,8 @@ printf("stack a : ");
     }
        i = 0;
     tmp = stack_b->stack;
-    printf("\nstack b : ");
- while (i < stack_b->len)
+    printf("\nstack b : \n");
+    while (i < stack_b->len)
     {
         printf("val %d \n", tmp->value);
 		printf("add == %p\n", tmp);
