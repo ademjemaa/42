@@ -6,13 +6,13 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 20:24:43 by adjemaa           #+#    #+#             */
-/*   Updated: 2019/11/10 16:10:42 by adjemaa          ###   ########.fr       */
+/*   Updated: 2021/03/12 16:34:47 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_choose(char const *s, unsigned int start, size_t len)
+size_t		ft_choose(char const *s, unsigned int start, size_t len)
 {
 	size_t	total;
 
@@ -25,7 +25,7 @@ size_t	ft_choose(char const *s, unsigned int start, size_t len)
 	return (total);
 }
 
-char			*ft_substr(char const *s, unsigned int start, size_t len)
+char		*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
 	size_t	i;

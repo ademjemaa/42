@@ -6,7 +6,7 @@
 /*   By: adjemaa <adjemaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 19:06:51 by adjemaa           #+#    #+#             */
-/*   Updated: 2019/11/12 12:20:56 by adjemaa          ###   ########.fr       */
+/*   Updated: 2021/03/12 17:10:04 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int					get_next_line(int fd, char **line);
 size_t				ft_choose(char const *s, unsigned int start, size_t len);
 size_t				ft_strlen(const char *s);
 char				*ft_strjoin(char const *s1, char const *s2);
-char				*ft_substrr(char *s, unsigned int start, size_t len, int crit);
+char				*ft_substrr(char *s, unsigned int start, size_t len,
+					int crit);
 char				*ft_strdup(const char *s1);
 void				ft_bzero(void *s, size_t n);
 int					get_next_line(int fd, char **line);
