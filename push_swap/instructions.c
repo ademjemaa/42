@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 16:07:57 by adjemaa           #+#    #+#             */
-/*   Updated: 2021/03/12 16:35:33 by adjemaa          ###   ########.fr       */
+/*   Updated: 2021/03/25 13:37:57 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	exec_pp(t_stack *stack_a, t_stack *stack_b)
 		}
 		stack_b->len++;
 		stack_a->len--;
+		if (stack_a->len == 0)
+			stack_a->stack = NULL;
 		if (tmp != NULL)
 			tmp->next = NULL;
 	}
@@ -108,11 +110,10 @@ void	exec_instructions(t_stack *stack_a, t_stack *stack_b, char *line)
 	i = -1;
 	while (line[++i])
 		line[i] = ft_toupper(line[i]);
-	if (ft_strncmp(line, "SA", 2) || ft_strncmp(line, "SB", 2) || ft_strncmp(
-		line, "SS", 2) || ft_strncmp(line, "PA", 2) || ft_strncmp(line, "PB",
-		2) || ft_strncmp(line, "RA", 2) || ft_strncmp(line, "RB", 2) ||
-		ft_strncmp(line, "RR", 2) || ft_strncmp(line, "RRA", 3) || ft_strncmp(
-		line, "RRB", 3) || ft_strncmp(line, "RRR", 3))
+	if (ft_strcmp(line, "SA") || ft_strcmp(line, "SB") || ft_strcmp(line, "SS")
+		|| ft_strcmp(line, "PA") || ft_strcmp(line, "PB") || ft_strcmp(line,
+		"RA") || ft_strcmp(line, "RB") || ft_strcmp(line, "RR") || ft_strcmp(
+		line, "RRA") || ft_strcmp(line, "RRB") || ft_strcmp(line, "RRR"))
 	{
 		execute(stack_a, stack_b, line);
 	}
@@ -121,5 +122,7 @@ void	exec_instructions(t_stack *stack_a, t_stack *stack_b, char *line)
 		free_list(stack_a);
 		free_list(stack_b);
 		free(line);
+		ft_putstr_fd("Error\n", 2);
+		exit(0);
 	}
 }

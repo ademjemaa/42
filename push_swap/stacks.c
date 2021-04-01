@@ -6,7 +6,7 @@
 /*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 16:29:16 by adjemaa           #+#    #+#             */
-/*   Updated: 2021/03/12 16:34:20 by adjemaa          ###   ########.fr       */
+/*   Updated: 2021/03/22 17:16:05 by adjemaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_stack		*init_stack(void)
 
 	stack = malloc(sizeof(t_stack));
 	stack->stack = NULL;
+	stack->move = NULL;
 	(stack)->len = 0;
 	return (stack);
 }
@@ -84,13 +85,25 @@ int			check_dupli(t_stack *stack_a)
 t_stack		*check_values(int argc, char **argv)
 {
 	int		i;
+	int		j;
 	t_stack	*stack_a;
+	char	**str;
 
 	i = 1;
 	stack_a = init_stack();
 	while (argc > i)
-		if (!lstadd_front(lstnew(argv[i++]), stack_a))
-			return (free_list(stack_a));
+	{
+		j = -1;
+		str = ft_split(argv[i], ' ');
+		while (str[++j])
+			if (!lstadd_front(lstnew(str[j]), stack_a))
+				return (free_list(stack_a));
+		j = 0;
+		while (str[j])
+			free(str[j++]);
+		free(str);
+		i++;
+	}
 	if (check_dupli(stack_a))
 		return (free_list(stack_a));
 	return (stack_a);

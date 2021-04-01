@@ -1,16 +1,20 @@
 NAME=push_swap
 NAME_C=checker
 
-SRCS= \
+SRCS= stacks.c\
+	  sorting.c\
+	  instructions.c\
+	  rotate.c\
 
 SRCS_C:= \
 	checker.c\
-	stacks.c\
-	sorting.c\
-	instructions.c\
-	rotate.c\
 
-SRCS_PS:= 
+SRCS_PS:= swap_push.c\
+	choose_instr.c\
+	quarter_split.c\
+	align.c\
+	rotate_stack.c\
+	median.c\
 
 OBJ:= $(SRCS:.c=.o)
 OBJ_C:= $(SRCS_C:.c=.o)
@@ -22,17 +26,17 @@ LIBFT:= ./libft/libft.a
 
 VPATH:= \
 
-FLAGS:= -Wall -Wextra -Werror
+FLAGS:=  -Wall -Wextra -Werror
 
-#all : $(NAME_C) $(NAME)
+all : $(NAME_C) $(NAME)
 
 all : $(NAME_C) 
 
 %.o : %.c
 	gcc -c $< -I $(INCLS) $(FLAGS)
 
-#$(NAME) : $(OBJ) $(OBJ_PS) $(LIBFT)
-#	gcc -o $(NAME) $(OBJ) $(OBJ_PS) $(LIBFT) $(FLAGS)
+$(NAME) : $(OBJ) $(OBJ_PS) $(LIBFT)
+	gcc -o $(NAME) $(OBJ) $(OBJ_PS) $(LIBFT) $(FLAGS)
 
 $(NAME_C) : $(OBJ) $(OBJ_C) $(LIBFT)
 	gcc -o $(NAME_C) $(OBJ) $(OBJ_C) $(LIBFT) $(FLAGS)

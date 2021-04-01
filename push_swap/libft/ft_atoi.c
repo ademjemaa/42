@@ -10,6 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <limits.h>
+#include "libft.h"
+
+void		ft_check(long total)
+{
+	if (total > 2147483647 || total < -2147483648)
+	{
+		ft_putstr_fd("Error\n", 2);
+		exit(0);
+	}
+}
+
 static int	ft_check_sign(char *str)
 {
 	int i;
@@ -28,9 +41,9 @@ static int	ft_check_sign(char *str)
 
 int			ft_atoi(const char *str)
 {
-	int i;
-	int sign;
-	int total;
+	int		i;
+	int		sign;
+	long	total;
 
 	total = 0;
 	i = 0;
@@ -44,8 +57,8 @@ int			ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		total = total * 10;
-		total = (str[i] - '0') + total;
-		i++;
+		total = (str[i++] - '0') + total;
 	}
-	return (total * sign);
+	ft_check(total);
+	return ((int)(total * sign));
 }
