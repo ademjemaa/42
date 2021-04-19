@@ -19,8 +19,6 @@ void				ft_putnbr(unsigned  long n)
 void	ft_locked_print(char *str, int cur)
 {
 	sem_wait(stru.print);
-	if (stru.state == 1)
-		return;
 	ft_putnbr(the_time() - time_now);
 	ft_putstr(" ");
 	ft_putnbr(cur + 1);

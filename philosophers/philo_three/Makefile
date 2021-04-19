@@ -3,7 +3,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -fsanitize=address -I.
+CFLAGS			= -Wall -Wextra -Werror -I.
 LIBS			= -lpthread
 
 NAME			= philo_three

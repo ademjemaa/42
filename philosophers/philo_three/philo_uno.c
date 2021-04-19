@@ -1,24 +1,14 @@
 #include "header.h"
 
-int     check_stats(void)
+unsigned int death;
+
+int     check_stats(int cur)
 {
-    int index = 0;
-    for (int i = 0; i < stru.philo; i++)
+    if ((unsigned long)(the_time() - stru.philos[cur].last_meal) >= (unsigned long)stru.time_die)
     {
-        if (stru.philos[i].total_meals == stru.total_must_eat)
-            index++;
-        else if ((unsigned long)(the_time() - stru.philos[i].last_meal) >= (unsigned long)stru.time_die)
-        {
-            ft_locked_print("has died\n", i);
-            printf("last meal == %ld\n", the_time() - stru.philos[i].last_meal);
-            stru.state = 1;
-            return(0);
-        }
-    }
-    if (index == stru.philo && stru.total_must_eat > 0)
-    {
-        stru.state = 1;
-        return(0);
+        ft_locked_print("is dead\n", cur);
+        sem_post(stru.death);
+        return (0);
     }
     return (1);
 }
@@ -50,10 +40,12 @@ int    init_vars(char **argv, int argc)
     stru.forks = sem_open("forks", O_CREAT, S_IRWXU, stru.philo);
     stru.print = sem_open("print", O_CREAT, S_IRWXU, 1);
     stru.two_forks = sem_open("two forks", O_CREAT, S_IRWXU, 1);
+    stru.death = sem_open("death", O_CREAT, S_IRWXU, 0);
     for (int i = 0; i < stru.philo; i++)
     {
         stru.philos[i].id = i;
         stru.philos[i].last_meal = current;
+        stru.philos[i].death = the_time() * 10;
         stru.philos[i].total_meals = 0;
     }
     return (1);
@@ -61,9 +53,11 @@ int    init_vars(char **argv, int argc)
 
 int main(int argc, char **argv)
 {
+    int i;
     sem_unlink("forks");
     sem_unlink("two forks");
     sem_unlink("print");
+    sem_unlink("death");
     time_now = 0;
     if (init_vars(argv, argc) == 0)
     {
@@ -80,15 +74,20 @@ int main(int argc, char **argv)
 			pthread_create(&stru.philos[i].thread_id, NULL, function, (void*)&i);
             while (1)
             {
-                if (!check_stats())
+                if (!check_stats(i))
                     exit(1);
             }
-            
+            pthread_join(stru.philos[i].thread_id, NULL);
         }
     }
-    while (check_stats());
+    i = -1;
+    sem_wait(stru.death);
+    i = 0;
+    while (i < stru.philo)
+		kill(stru.philos[i++].pid, SIGKILL);
     sem_unlink("forks");
     sem_unlink("two forks");
     sem_unlink("print");
+    sem_unlink("death");
     free(stru.philos);
 }

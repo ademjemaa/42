@@ -2,12 +2,14 @@
 #define PHILOUNO_H
 
 #include <sys/time.h>
+#include <sys/wait.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
+# include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -17,6 +19,7 @@ typedef struct s_phil
 {
     int             id;
     unsigned long   last_meal;
+    unsigned long   death;
     int             total_meals;
     pthread_t       thread_id;
     pid_t           pid;
@@ -33,6 +36,7 @@ typedef struct s_condi
     sem_t *print;
     sem_t *forks;
     sem_t *two_forks;
+    sem_t *death;
     t_phil  *philos;
 }               t_condi;
 
@@ -44,6 +48,6 @@ unsigned long   the_time(void);
 void	ft_locked_print(char *str, int cur);
 void	ft_putnbr(unsigned long n);
 void    *function(void  *args);
-int     check_stats(void);
+int     check_stats(int cur);
 
 #endif

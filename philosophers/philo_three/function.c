@@ -29,9 +29,6 @@ void    drop_forks(void)
 void    *function(void  *args)
 {
     int cur = *(int*)args;
-
-    if (!check_stats())
-        return NULL;  
     pick_up_forks(cur);
     stru.philos[cur].last_meal = the_time();
     ft_locked_print("is eating\n", cur);
@@ -39,9 +36,9 @@ void    *function(void  *args)
     drop_forks();
     stru.philos[cur].total_meals++;
     ft_locked_print("is sleeping\n", cur);
-    usleep((stru.time_sleep - stru.time_eat) * 1000);
+    usleep((stru.time_sleep) * 1000);
     ft_locked_print("is thinking\n", cur);
-    if (stru.state == 0)
+    if (check_stats(cur))
         function(args);
     return(0);
 }
