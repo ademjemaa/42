@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adjemaa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/13 16:38:39 by adjemaa           #+#    #+#             */
+/*   Updated: 2021/05/13 16:39:44 by adjemaa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
-void				ft_putnbr(unsigned  long n)
+void	ft_putnbr(unsigned	long n)
 {
 	char	c;
 
@@ -16,29 +28,32 @@ void				ft_putnbr(unsigned  long n)
 	}
 }
 
-void	ft_locked_print(char *str, int cur)
+void	ft_locked_print(char *str, int cur, t_condi *stru)
 {
-	sem_wait(stru.print);
-	if (stru.state == 1)
-		return;
-	ft_putnbr(the_time() - time_now);
+	sem_wait(stru->print);
+	if (stru->state == 1)
+		return ;
+	ft_putnbr(the_time() - stru->time_now);
 	ft_putstr(" ");
 	ft_putnbr(cur + 1);
 	ft_putstr(" ");
 	ft_putstr(str);
-	sem_post(stru.print);
+	sem_post(stru->print);
 }
 
 void	ft_putstr(char *str)
 {
-	for (int i = 0; str[i]; i++)
+	int	i;
+
+	i = -1;
+	while (str[++i])
 		write(1, &str[i], 1);
 }
 
 static int	ft_check_sign(char *str)
 {
-	int i;
-	int sign;
+	int	i;
+	int	sign;
 
 	sign = 1;
 	i = 0;
@@ -51,17 +66,17 @@ static int	ft_check_sign(char *str)
 	return (sign);
 }
 
-int			ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int i;
-	int sign;
-	int total;
+	int	i;
+	int	sign;
+	int	total;
 
 	total = 0;
 	i = 0;
 	sign = 1;
 	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
-			|| str[i] == '\f' || str[i] == '\r' || str[i] == 32)
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == 32)
 		i++;
 	sign = ft_check_sign((char *)(str + i));
 	if (str[i] == '-' || str[i] == '+')
